@@ -1,12 +1,24 @@
-def is_admin(user_id: str) -> bool:
-    return user_id in {"YOUR_TELEGRAM_ID"}  # ← Замени на свой ID
+import re
+import os
+from config import MAX_MESSAGE_LENGTH
 
-def is_message_too_long(text: str, max_len: int = 5000) -> bool:
-    return len(text) > max_len
+BLOCKED_PATTERNS = [
+    r"(buy\s*cheap\s*medicines?)",
+    r"(cryptocurrency\s*invest)",
+]
+ADMIN_IDS = set(os.getenv("ADMIN_IDS", "").split(","))
 
-def contains_spam(text: str) -> bool:
-    spam = ["купить", "crypto", "казино", "ставки", "http", "www."]
-    return any(word in text.lower() for word in spam)
+def is_admin(user_id):
+    return user_id in ADMIN_IDS
 
-def is_system_command(text: str) -> bool:
-    return text.startswith(('/', '!', '.'))
+def is_message_too_long(text, max_length=MAX_MESSAGE_LENGTH):
+    return len(text) > max_length
+
+def contains_spam(text):
+    for pattern in BLOCKED_PATTERNS:
+        if re.search(pattern, text, re.IGNORECASE):
+            return True
+    return False
+
+def is_system_command(text):
+    return text.startswith(("/start", "/help", "/settings"))
