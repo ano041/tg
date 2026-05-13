@@ -1,0 +1,34 @@
+version: '3.8'
+services:
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    volumes:
+      - redis_data:/data
+    networks:
+      - agent_net
+  bot:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      - redis
+    env_file: .env
+    networks:
+      - agent_net
+    command: ["python", "main.py"]
+  worker:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      - redis
+    env_file: .env
+    networks:
+      - agent_net
+    command: ["arq", "core.task_queue.WorkerSettings"]
+    deploy:
+      replicas: 2
+volumes:
+  redis_data:
+networks:
+  agent_net:
+    driver: bridge
