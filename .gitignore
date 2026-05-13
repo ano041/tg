@@ -1,38 +1,55 @@
 ```
 # Dependencies
+venv/
+.venv/
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
+.Python
+env/
+env.bak/
+venv.bak/
 .env
 .env.local
 .env.*
 
-# Logs and temp files
-*.log
-*.tmp
-*.swp
-
-# Editors
-.vscode/
-.idea/
-
-# Coverage reports
+# Build artifacts
+build/
+dist/
+*.egg
+*.egg-info/
+.sass-cache/
+.wafpickle-*
 .coverage
 coverage/
 htmlcov/
 
-# Distribution / packaging
-dist/
-build/
-*.egg-info/
-*.dist-info/
+# Logs
+*.log
+*.out
+*.pid
 
-# Python virtual environments
-.venv/
-venv/
-env/
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
 
-# MyPy cache
+# Testing
+.pytest_cache/
 .mypy_cache/
+.hypothesis/
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Docker
+.dockerenv
 ```
